@@ -98,10 +98,10 @@ def modify_shell_script(student_filepath):
     with open("./template_files/run_autograder_template", "r") as f:
         autograder_script = f.read()
 
-    autograder_script = autograder_script.replace(
-        "cp /autograder/submission/ /autograder/source/",
-        f'cp /autograder/submission/{student_filepath} /autograder/source/{student_filepath}'
-    )
+    # autograder_script = autograder_script.replace(
+    #     "cp /autograder/submission/ /autograder/source/",
+    #     f'cp /autograder/submission/{student_filepath} /autograder/source/{student_filepath}'
+    # )
 
     with open("./build/run_autograder", "w") as f:
         f.write(autograder_script)
