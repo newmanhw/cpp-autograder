@@ -78,8 +78,8 @@ def create_grading_script(student_filepath):
 
     student_filepath = os.path.basename(student_filepath)
     script_content = script_content.replace(
-        'student_cpp_path = \"LabX.cpp\"',
-        f'student_cpp_path = \"{student_filepath}\"'
+        'student_filepath = \"LabX.cpp\"',
+        f'student_filepath = \"{student_filepath}\"'
     )
 
     new_test_cases_str = "test_cases = [\n    " + ",\n    ".join(test_cases) + "\n]"
