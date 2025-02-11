@@ -2,7 +2,7 @@
 
 # Set up autograder files:
 
-cp -r /autograder/submission/* /autograder/source/
+cp -a /autograder/submission/. /autograder/source/
 
 cd /autograder/source
 

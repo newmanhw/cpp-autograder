@@ -2,6 +2,7 @@ import json
 import subprocess
 import re
 import os
+import glob
 import resource
 from io import StringIO
 from difflib import SequenceMatcher
@@ -59,9 +60,17 @@ def limit_resources():
 
 def compile_and_run(student_cpp_path, input_data):
     executable = "student_program"
-    compile_process = subprocess.run([
-        "g++", "-o", executable, student_cpp_path
-    ], capture_output=True, text=True)
+    
+    cpp_files = glob.glob("**/*.cpp", recursive=True)
+
+    if not cpp_files:
+        raise FileNotFoundError("No .cpp files found!")
+    
+    compile_process = subprocess.run(
+    ["g++", "-o", "student_program"] + cpp_files,
+    capture_output=True,
+    text=True
+    )
     
     if compile_process.returncode != 0:
         return "", compile_process.stderr
@@ -95,6 +104,7 @@ def grade():
     total_score = 0.0
     max_score = 100
     points_per_question = max_score/len(test_cases)
+    rounded_points = round(points_per_question, 2)
 
     for i, (input_file, output_file, visibility) in enumerate(test_cases):
         with open(input_file, 'r') as f:
@@ -110,7 +120,7 @@ def grade():
             if (visibility == "visible"):
                 test_results.append({
                     "score": 0.0,
-                    "max_score": points_per_question,
+                    "max_score": rounded_points,
                     "status": "failed",
                     "name": f"{student_filepath} Test Case {i+1}",
                     "output": f"Inputs:\n\n{input_data}\n\nError in your script:\n{errors}",
@@ -119,7 +129,7 @@ def grade():
             elif (visibility == "hidden"):
                 test_results.append({
                     "score": 0.0,
-                    "max_score": points_per_question,
+                    "max_score": rounded_points,
                     "status": "failed",
                     "name": f"{student_filepath} Test Case {i+1} (Hidden)",
                     "output": f"Error in your script:\n{errors}",
@@ -139,8 +149,8 @@ def grade():
                 # Test passed
                 if (visibility == "visible"):
                     test_results.append({
-                        "score": points_per_question,
-                        "max_score": points_per_question,
+                        "score": rounded_points,
+                        "max_score": rounded_points,
                         "status": "passed",
                         "name": f"{student_filepath} Test Case {i+1}",
                         "output": "Correct output.",
@@ -148,8 +158,8 @@ def grade():
                     })
                 elif (visibility == "hidden"):
                     test_results.append({
-                        "score": points_per_question,
-                        "max_score": points_per_question,
+                        "score": rounded_points,
+                        "max_score": rounded_points,
                         "status": "passed",
                         "name": f"{student_filepath} Test Case {i+1} (Hidden)",
                         "output": "Passed hidden test case.",
@@ -161,7 +171,7 @@ def grade():
                 if (visibility == "visible"):
                     test_results.append({
                         "score": 0.0,
-                        "max_score": points_per_question,
+                        "max_score": rounded_points,
                         "status": "failed",
                         "name": f"{student_filepath} Test Case {i+1}",
                         "output": f"{Fore.MAGENTA}Inputs:{Fore.RESET}\n\n{input_data}\n\n{Fore.MAGENTA}Expected:{Fore.RESET}\n\n{expected_output}\n\n{Fore.MAGENTA}Got:{Fore.RESET}\n\n{student_output}\n\n{Fore.MAGENTA}Difference:{Fore.RESET} {get_difference(student_output, expected_output)}",
@@ -171,7 +181,7 @@ def grade():
                 elif (visibility == "hidden"):
                     test_results.append({
                         "score": 0.0,
-                        "max_score": points_per_question,
+                        "max_score": rounded_points,
                         "status": "failed",
                         "name": f"{student_filepath} Test Case {i+1} (Hidden)",
                         "output": f"Failed hidden test case, check your logic!\n\n(This means that you need to further test your code)",
