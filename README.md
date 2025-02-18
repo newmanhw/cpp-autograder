@@ -1,8 +1,17 @@
 # C++ Gradescope Autograder
 ## Author: Newman Waters
 
-### Usage:
-First fork the repository, then clone onto a Unix-based machine **(tested for WSL)**.
+This repository contains documentation, code, and test cases relating to the COP3502C Autograder. If planning to make changes to this project, make sure to follow the guide in [Git Workflow](#basic-git-workflow).
+
+## Table of Contents
+- [Usage](#usage)
+- [About the Autograder](#about-cop3502c-autograder)
+- [To-Do List](#to-do-list)
+- [Git Workflow](#basic-git-workflow)
+    - [Git Resources](#git-resources)
+
+## Usage
+Clone the repository onto a Unix-based machine **(tested for WSL)**.
 ```
 cd cpp-autograder
 
@@ -24,3 +33,64 @@ python3 main.py
 Add the test case file and solution file. Click Run.
 This should generate a file called *autograder.zip*. 
 Upload this zip file to Gradescope.
+  
+## About the Autograder
+This autograder is written in Python to grade a student's submission to Gradescope. This is done through the following steps:
+
+1. Gradescope creates a **Docker Container** to run the autograder in a controlled environment, where each submission runs in a fresh container. This ensures that the environment is isolated and identical for all students. The configuration we have set up is that this container is an **Ubuntu** machine, so we normalize any environment differences.
+2. The autograder directory is set up as such **BEFORE** we upload it to Gradescope:
+    
+        /Lab XXX
+            ├── setup.sh             # Script to install dependencies
+            ├── run_autograder       # Main script to start run_tests.py
+            ├── run_tests.py         # Python script that grades the submission
+            ├── /tests               # Folder containing test cases
+            ├── requirements.txt     # File containing any packages used (empty if none)
+            # (ASSIGNMENT DEPENDENT):
+            # Replaces run_tests.py if multi-part submission (LabX_A, LabX_B, etc.)
+            ├── multiple_programs.py # Python script that grades the submission
+3. We zip up all the files inside of the folder and name the zip file that is generated to `autograder.zip` -- <ins>it is very important that it is named this</ins>, since our python file generates files with this directory name.
+4. Once the zip file is uploaded to Gradescope, it places all of our unzipped files into the directory `autograder/source/` of the Docker container so we want any student submissions to be moved here. The overall Docker directory system looks like this right now:
+
+         /autograder
+            ├── setup.sh             
+            ├── run_autograder       
+            /source
+                ├── run_tests.py         
+                ├── /tests               
+                ├── requirements.txt
+            /submission
+
+6. The docker container by default starts in the directory `autograder/`, thus we need to change directories to run our grader:
+
+        cd /autograder/source                 # Change directory to source files
+        python3 multiple_programs.py          # or python3 run_tests.py
+
+7. The Python scripts generate JSON files containing the results of the tests as per [Gradescope specifications - Output format](https://gradescope-autograders.readthedocs.io/en/latest/specs/). This will be placed as such in the new directory `/autograder/results/results.json` You can review exactly how this code works through the comments on the autograder template located in this repository. 
+
+If you have any comments that could make this better, please submit an issue on this repository. Thank you!
+            
+## Basic Git Workflow 
+#### Getting the project onto your machine (First Time)
+Navigate to a folder you want the "Prog1Autograder" folder to be located within the terminal. Then, run: 
+
+    git clone https://github.com/newmanhw/Prog1Autograder.git
+    cd Prog1Autograder/
+
+#### General Routine
+Make sure to follow the below commands before starting work as a general guide. To prevent too much hassle, it is always good practice to pull before you start working.
+
+    git pull                        # Pull in any changes
+    git status                      # Check current commit status
+    git add .                       # Add files to be committed
+    git commit -m "Message"         # Commit your changes with a descriptive message
+    git push                        # Push changes to GitHub
+
+### Git Resources
+* ["Version Control with Git"](https://swcarpentry.github.io/git-novice/) by Software Carpentry Foundation
+* [Git cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf)
+* [GitHub flow guides](https://enterprise.github.com/downloads/en/github-flow-cheatsheet.pdf)
+* [GitHub flavored markdown guides](https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf)
+* [Complete list of Github markdown emoji markup](https://gist.github.com/rxaviers/7360908)
+* [GitHub Pages](https://pages.github.com/)
+* [GitHub Skills](https://skills.github.com/) - "interactive courses for beginners and experts"
