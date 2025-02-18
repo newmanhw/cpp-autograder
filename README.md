@@ -1,14 +1,10 @@
 # C++ Gradescope Autograder
 ## Author: Newman Waters
 
-This repository contains documentation, code, and test cases relating to the COP3502C Autograder. If planning to make changes to this project, make sure to follow the guide in [Git Workflow](#basic-git-workflow).
-
+This repository contains documentation, code, and test cases relating to the C++ Gradescope Autograder
 ## Table of Contents
 - [Usage](#usage)
 - [About the Autograder](#about-cop3502c-autograder)
-- [To-Do List](#to-do-list)
-- [Git Workflow](#basic-git-workflow)
-    - [Git Resources](#git-resources)
 
 ## Usage
 Clone the repository onto a Unix-based machine **(tested for WSL)**.
