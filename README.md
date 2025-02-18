@@ -69,28 +69,3 @@ This autograder is written in Python to grade a student's submission to Gradesco
 7. The Python scripts generate JSON files containing the results of the tests as per [Gradescope specifications - Output format](https://gradescope-autograders.readthedocs.io/en/latest/specs/). This will be placed as such in the new directory `/autograder/results/results.json` You can review exactly how this code works through the comments on the autograder template located in this repository. 
 
 If you have any comments that could make this better, please submit an issue on this repository. Thank you!
-            
-## Basic Git Workflow 
-#### Getting the project onto your machine (First Time)
-Navigate to a folder you want the "Prog1Autograder" folder to be located within the terminal. Then, run: 
-
-    git clone https://github.com/newmanhw/Prog1Autograder.git
-    cd Prog1Autograder/
-
-#### General Routine
-Make sure to follow the below commands before starting work as a general guide. To prevent too much hassle, it is always good practice to pull before you start working.
-
-    git pull                        # Pull in any changes
-    git status                      # Check current commit status
-    git add .                       # Add files to be committed
-    git commit -m "Message"         # Commit your changes with a descriptive message
-    git push                        # Push changes to GitHub
-
-### Git Resources
-* ["Version Control with Git"](https://swcarpentry.github.io/git-novice/) by Software Carpentry Foundation
-* [Git cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf)
-* [GitHub flow guides](https://enterprise.github.com/downloads/en/github-flow-cheatsheet.pdf)
-* [GitHub flavored markdown guides](https://enterprise.github.com/downloads/en/markdown-cheatsheet.pdf)
-* [Complete list of Github markdown emoji markup](https://gist.github.com/rxaviers/7360908)
-* [GitHub Pages](https://pages.github.com/)
-* [GitHub Skills](https://skills.github.com/) - "interactive courses for beginners and experts"
